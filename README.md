@@ -1,6 +1,6 @@
 
 DeNova Safelock
--------------__
+---------------
 
 Locks are usually the simplest way to get safe concurrent access to a shared resource.
 But they are a bear to get right.
