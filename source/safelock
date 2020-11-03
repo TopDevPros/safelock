@@ -3,7 +3,7 @@
     Multiprocess-safe locks.
 
     Copyright 2019-2020 DeNova
-    Last modified: 2020-10-26
+    Last modified: 2020-11-02
 
     Safelock server for denova.os.lock. Requires "pip3 install denova safelog".
 
@@ -191,7 +191,15 @@ def start():
         SystemExit: This program must be run as root. Current user is ramblin.
     '''
 
-    # we require running as root because we're a server
+    # We require running as root because:
+    #   1) safelog is a system-wide server
+    #   2) to create log files with the right ownership and permisions
+    # This lets users clear out their own logs whenever they want.
+
+    # Of course it would be better to create a separate user with
+    # access only to the log dirs, and create a group for users.
+    # But that makes installation a lot harder.
+    # Until we automate that setup, we're root.
     require_user('root')
 
     try:
