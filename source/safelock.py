@@ -3,7 +3,7 @@
     Multiprocess-safe locks.
 
     Copyright 2019-2020 DeNova
-    Last modified: 2020-11-02
+    Last modified: 2020-11-26
 
     Safelock server for denova.os.lock. Requires "pip3 install denova safelog".
 
@@ -22,6 +22,7 @@ import argparse
 import os
 import socketserver
 import sys
+from subprocess import CalledProcessError
 
 # constants shared with denova.os.lock and safelock are
 # in denova.os.lock so they can be imported easily by apps
@@ -249,30 +250,20 @@ def stop():
     # we require running as root because we're a server
     require_user('root')
 
-    log('stop safelock')
-
+    log('stopping safelock')
     try:
-        run('killsafe', 'safelock')
-
+        run('fuser', '--kill', f'{SAFELOCK_PORT}/tcp')
+    except CalledProcessError as cpe:
+        log('safelock threw a CalledProcessError')
+        log(cpe)
+        try:
+            run('killmatch', 'safelock')
+        except:  # 'bare except' because it catches more than "except Exception"
+            log(format_exc())
     except Exception as e:
-        log('safelock threw an unexpected exception')
+        log('safelckg threw an unexpected exception')
         log(e)
-
-    """ we just killed this process; no point in continuing
-    # wait for clients
-    # we don't want to wait when we are shutting down the system
-    # but how do we know we're shutting down?
-    try:
-        while run('portgrep', lock.LOCK_SERVER_PORT):
-            log('wait for clients to time out')
-            time.sleep(1)
-
-    except Exception as exc:
-        log.warning(exc)
-        raise
-
     log('safelock stopped')
-    """
 
 def parse_args():
     ''' Parsed command line. '''
