@@ -12,5 +12,6 @@ Full Description
 
 Learn more about [DeNova Safelock](https://denova.com/open_source/safelock/)
 
-Download Safelock's systemd [service file](https://denova.com/open_source/safelock/get_app/safelock.service)
-to ensure your python apps can easily and safely be locked.
+Install Safelock's systemd [service file](https://denova.com/open_source/safelock/get_app/safelock.service)
+to ensure your python apps can easily and safely be locked. If you are installing
+Safelock from github, be sure to also install the "safelog" package from PyPI.

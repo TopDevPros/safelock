@@ -1,11 +1,13 @@
 #! /usr/bin/python3
 '''
-    Multiprocess-safe locks.
+    Server for Multiprocess-safe locks.
+    Client side is denova.os.lock.
+
+    When you install "safelog" from PyPI, all the dependencies, including the
+    client side, are automatically installed.
 
     Copyright 2019-2020 DeNova
-    Last modified: 2020-11-26
-
-    Safelock server for denova.os.lock. Requires "pip3 install denova safelog".
+    Last modified: 2020-11-30
 
     Written because none of the standard python locking mechanisms work
     reliably.
@@ -18,16 +20,14 @@
     This file is open source, licensed under GPLv3 <http://www.gnu.org/licenses/>.
 '''
 
-import argparse
 import os
 import socketserver
 import sys
-from subprocess import CalledProcessError
+from traceback import format_exc
 
 # constants shared with denova.os.lock and safelock are
 # in denova.os.lock so they can be imported easily by apps
 from denova.os import lock
-from denova.os.command import run
 from denova.os.process import is_pid_active, is_program_running
 from denova.os.user import require_user
 from denova.python.log import get_log
@@ -176,20 +176,16 @@ class LockServer(socketserver.BaseRequestHandler):
         count += 1
         return f'{timestamp()} {count}'
 
-def main(args):
-    if args.stop:
-        stop()
-    else:
-        start()
-
-def start():
+def main():
     '''
-        Start the safelock.
+        Run the safelock.
 
-        >>> start()
-        Traceback (most recent call last):
-           ...
-        SystemExit: This program must be run as root. Current user is ramblin.
+        >>> try:
+        ...    main()
+        ...    print('Failure')
+        ... except:
+        ...    print('This program must be run as root.')
+        This program must be run as root.
     '''
 
     # We require running as root because:
@@ -205,7 +201,7 @@ def start():
 
     try:
         # Create the server
-        BIND_ADDR = (lock.LOCK_SERVER_HOST, lock.LOCK_SERVER_PORT)
+        BIND_ADDR = (lock.SAFELOCK_HOST, lock.SAFELOCK_PORT)
         server = socketserver.TCPServer(BIND_ADDR, LockServer)
 
         # Activate the server
@@ -213,21 +209,20 @@ def start():
         log('start lock server')
         server.serve_forever()
 
+        server.server_close()
+
     except OSError as ose:
         if 'Address already in use' in str(ose):
             if is_program_running(os.path.basename(__file__)):
                 msg = 'safelock is already running'
                 log(msg)
-                sys.exit(msg)
             else:
                 msg = 'port in use. did "safelock stop" fail to wait for clients to time out?'
                 log(msg)
-                sys.exit(msg)
 
     except KeyboardInterrupt:
-        msg = 'stopped safelock via keyboard'
-        log(msg)
-        sys.exit(msg)
+        server.shutdown()
+        server.server_close()
 
     except Exception as exc:
         log.warning(exc)
@@ -236,53 +231,7 @@ def start():
     else:
         log('safelock started')
 
-def stop():
-    ''' Stop the safelock.
-
-        This runs in a separate instance of safelock.
-
-        >>> stop()
-        Traceback (most recent call last):
-           ...
-        SystemExit: This program must be run as root. Current user is ramblin.
-    '''
-
-    # we require running as root because we're a server
-    require_user('root')
-
-    log('stopping safelock')
-    try:
-        run('fuser', '--kill', f'{SAFELOCK_PORT}/tcp')
-    except CalledProcessError as cpe:
-        log('safelock threw a CalledProcessError')
-        log(cpe)
-        try:
-            run('killmatch', 'safelock')
-        except:  # 'bare except' because it catches more than "except Exception"
-            log(format_exc())
-    except Exception as e:
-        log('safelckg threw an unexpected exception')
-        log(e)
-    log('safelock stopped')
-
-def parse_args():
-    ''' Parsed command line. '''
-
-    parser = argparse.ArgumentParser(description='Manage locks for processes and threads.')
-
-    parser.add_argument('--start',
-                        help="Start the safelock",
-                        action='store_true')
-    parser.add_argument('--stop',
-                        help="Stop the safelock",
-                        action='store_true')
-
-    args = parser.parse_args()
-
-    return args
-
 
 if __name__ == "__main__":
 
-    args = parse_args()
-    main(args)
+    main()

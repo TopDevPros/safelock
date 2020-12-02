@@ -1,14 +1,15 @@
 [Unit]
-Description=Multiprocess-safe locks
-After=network.target safelog.service
+Description=DeNova Safelock
+Wants=safelog.service
+After=safelog.service
 
 [Service]
 Type=simple
 # ideally safelock should be installed in sbin, but pypi installs it in bin
 # so we don't specify a path to allow it to work in any environment
-ExecStart=safelock --start
-ExecStop=safelock --stop
-RestartSec=5
+ExecStart=safelock
+KillSignal=SIGTERM
+Restart=no
 
 [Install]
 WantedBy=multi-user.target
