@@ -2,7 +2,7 @@
     Current distributed version of safelock.
 
     Copyright 2020 DeNova
-    Last modified: 2020-11-28
+    Last modified: 2020-12-06
 '''
 
-SafelockVersion = '1.2.4'
+SAFELOCK_VERSION = '1.2.5'
