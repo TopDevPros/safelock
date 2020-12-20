@@ -3,17 +3,13 @@
     Server for Multiprocess-safe locks.
     Client side is denova.os.lock.
 
-    When you install "safelog" from PyPI, all the dependencies, including the
+    When you install "safelock" from PyPI, all the dependencies, including the
     client side, are automatically installed.
 
     Copyright 2019-2020 DeNova
-    Last modified: 2020-11-30
+    Last modified: 2020-12-13
 
-    Written because none of the standard python locking mechanisms work
-    reliably.
-
-    We do not queue requests or have multiple workers because that would
-    just create another concurrency issue. The client must retry as needed.
+    Written because none of the standard python locking mechanisms work reliably.
 
     To do: Drop privs
 
