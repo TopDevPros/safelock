@@ -2,9 +2,9 @@
 DeNova Safelock
 ---------------
 
-Syncronized locks are usually the simplest way to get safe concurrent access to a shared resource.
-But they are a bear to get right. Safelock makes it easy. Get simple systemwide
-multithread, multiprocess, and multiprogram safe locks.
+Mutually exclusive locks are usually the simplest way to get safe concurrent access to a shared resource.
+But implementing the locks is a bear to get right.
+Get simple systemwide multithread, multiprocess, and multiprogram safe locks.
 
 
 Full Description

@@ -6,8 +6,8 @@
     When you install "safelock" from PyPI, all the dependencies, including the
     client side, are automatically installed.
 
-    Copyright 2019-2020 DeNova
-    Last modified: 2020-12-13
+    Copyright 2019-2021 DeNova
+    Last modified: 2020-01-02
 
     Written because none of the standard python locking mechanisms work reliably.
 
@@ -29,11 +29,16 @@ from denova.os.user import require_user
 from denova.python.log import get_log
 from denova.python.times import timestamp
 
-log = get_log()
+
+CURRENT_VERSION = '1.2.7'
+COPYRIGHT = 'Copyright 2019-2021 DeNova'
+LICENSE = 'GPLv3'
 
 # globals so they aren't initialized on every connection
 locks = {}
 count = 0
+log = get_log()
+
 
 class LockServer(socketserver.BaseRequestHandler):
     """ The request handler class for our server.
@@ -210,10 +215,10 @@ def main():
     except OSError as ose:
         if 'Address already in use' in str(ose):
             if is_program_running(os.path.basename(__file__)):
-                msg = 'safelock is already running'
+                msg = f'safelock {CURRENT_VERSION} is already running'
                 log(msg)
             else:
-                msg = 'port in use. did "safelock stop" fail to wait for clients to time out?'
+                msg = f'Port {lock.SAFELOCK_PORT} is in use. Did "safelock stop" fail to wait for clients to time out?'
                 log(msg)
 
     except KeyboardInterrupt:
@@ -225,7 +230,7 @@ def main():
         raise
 
     else:
-        log('safelock started')
+        log(f'safelock {CURRENT_VERSION} started')
 
 
 if __name__ == "__main__":
