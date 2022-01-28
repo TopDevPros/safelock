@@ -6,8 +6,8 @@
     When you install "safelock" from PyPI, all the dependencies, including the
     client side, are automatically installed.
 
-    Copyright 2019-2021 DeNova
-    Last modified: 2020-06-20
+    Copyright 2019-2022 DeNova
+    Last modified: 2022-01-25
 
     Written because none of the standard python locking mechanisms work reliably.
 
@@ -30,8 +30,8 @@ from denova.python.log import Log
 from denova.python.times import timestamp
 
 
-CURRENT_VERSION = '1.2.8'
-COPYRIGHT = 'Copyright 2019-2021 DeNova'
+CURRENT_VERSION = '1.2.9'
+COPYRIGHT = 'Copyright 2019-2022 DeNova'
 LICENSE = 'GPLv3'
 
 # globals so they aren't initialized on every connection
