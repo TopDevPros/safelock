@@ -7,7 +7,11 @@
     client side, are automatically installed.
 
     Copyright 2019-2022 DeNova
+<<<<<<< HEAD
+    Last modified: 2022-11-21
+=======
     Last modified: 2022-01-25
+>>>>>>> 9b4d15c28d1e17047fc1673660d6f5c829fc2329
 
     Written because none of the standard python locking mechanisms work reliably.
 
@@ -30,7 +34,11 @@ from denova.python.log import Log
 from denova.python.times import timestamp
 
 
+<<<<<<< HEAD
+CURRENT_VERSION = '1.3.0'
+=======
 CURRENT_VERSION = '1.2.9'
+>>>>>>> 9b4d15c28d1e17047fc1673660d6f5c829fc2329
 COPYRIGHT = 'Copyright 2019-2022 DeNova'
 LICENSE = 'GPLv3'
 
