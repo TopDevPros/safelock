@@ -1,17 +1,13 @@
 #! /usr/bin/python3
 '''
     Server for Multiprocess-safe locks.
-    Client side is denova.os.lock.
+    Client side is solidlibs.os.lock.
 
     When you install "safelock" from PyPI, all the dependencies, including the
     client side, are automatically installed.
 
-    Copyright 2019-2022 DeNova
-<<<<<<< HEAD
-    Last modified: 2022-11-21
-=======
-    Last modified: 2022-01-25
->>>>>>> 9b4d15c28d1e17047fc1673660d6f5c829fc2329
+    Copyright 2019-2023 safeapps
+    Last modified: 2023-05-15
 
     Written because none of the standard python locking mechanisms work reliably.
 
@@ -25,21 +21,17 @@ import socketserver
 import sys
 from traceback import format_exc
 
-# constants shared with denova.os.lock and safelock are
-# in denova.os.lock so they can be imported easily by apps
-from denova.os import lock
-from denova.os.process import is_pid_active, is_program_running
-from denova.os.user import require_user
-from denova.python.log import Log
-from denova.python.times import timestamp
+# constants shared with solidlibs.os.lock and safelock are
+# in solidlibs.os.lock so they can be imported easily by apps
+from solidlibs.os import lock
+from solidlibs.os.process import is_pid_active, is_program_running
+from solidlibs.os.user import require_user
+from solidlibs.python.log import Log
+from solidlibs.python.times import timestamp
 
 
-<<<<<<< HEAD
-CURRENT_VERSION = '1.3.0'
-=======
-CURRENT_VERSION = '1.2.9'
->>>>>>> 9b4d15c28d1e17047fc1673660d6f5c829fc2329
-COPYRIGHT = 'Copyright 2019-2022 DeNova'
+CURRENT_VERSION = '1.3.1'
+COPYRIGHT = 'Copyright 2019-2023 safeapps'
 LICENSE = 'GPLv3'
 
 # globals so they aren't initialized on every connection
@@ -91,7 +83,7 @@ class LockServer(socketserver.BaseRequestHandler):
                     self.request.sendall(data)
 
             else:
-                log('got empty data; did denova.os.lock send it correctly?')
+                log('got empty data; did solidlibs.os.lock send it correctly?')
 
         except Exception as exc:
             # just log it
