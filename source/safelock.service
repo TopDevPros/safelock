@@ -1,5 +1,5 @@
 [Unit]
-Description=DeNova Safelock
+Description=Safelock
 Wants=safelog.service
 After=safelog.service
 
