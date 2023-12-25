@@ -18,9 +18,9 @@ Start as many threads, subprocesses, or programs as you like. When they try to a
 Install
 -------
 
-sudo pip3 install safelock
+git clone https://codeberg.org/topdevpros/safelock.git
 
-If you are installing Safelock from github, be sure to also install the "safelog" package from PyPI.
+Also install the "safelog" package from https://codeberg.org/topdevpros/safelog.git.
 
 
 How it Works
