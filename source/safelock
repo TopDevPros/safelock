@@ -30,7 +30,7 @@ from solidlibs.python.log import Log
 from solidlibs.python.times import timestamp
 
 
-CURRENT_VERSION = '1.3.2'
+CURRENT_VERSION = '1.3.3'
 COPYRIGHT = 'Copyright 2019-2023 TopDevPros'
 LICENSE = 'GPLv3'
 
