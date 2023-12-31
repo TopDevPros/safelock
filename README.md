@@ -18,10 +18,14 @@ Start as many threads, subprocesses, or programs as you like. When they try to a
 Install
 -------
 
-git clone https://codeberg.org/topdevpros/safelock.git
+pip install safelock
 
 Also install the "safelog" package from https://codeberg.org/topdevpros/safelog.git.
 
+Updates
+-------
+
+All future updates are available at https://codeberg.org/topdevpros/safelock.git
 
 How it Works
 -----------
